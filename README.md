@@ -10,14 +10,15 @@ This Cordapp shows how to trigger a flow with vault update(completion of prior f
 
 In this Cordapp, there are four parties:
 
-Finance Team: gives payroll order
-Bank Operater: take the order and automatically initiate the money transfer
-PetersonThomas: worker #1 will accept money
-GeorgeJefferson: worker #2 will accept money
-There are two states PaymentRequestState & MoneyState, and two flows RequestFlow & PaymentFlow. The business logic looks like the following:  alt text
+PCS: which is an IT company gives payroll order.
+HDFC: take the order and automatically initiate the money transfer
+Priyata: worker #1 will accept money
+Subhodeep: worker #2 will accept money
 
-Finance team put in payroll request to the bank operators
-Bank operator receives the requests and process them without stopping
+There are two states PaymentRequest & MoneyState, and two flows RequestFlow & MoneyFlow. The business logic looks like the following:  alt text
+
+PCS put in payroll request to HDFC
+HDFC receives the requests and process them without stopping
 Running the demo
 
 Deploy and run the nodes by:
@@ -30,13 +31,13 @@ if you have any questions during setup, please go to https://docs.corda.net/gett
 
 Once all four nodes are started up, in Financeteam's node shell, run:
 
-flow start RequestFlowInitiator amount: 500, towhom: GeorgeJefferson
-As a result, we can check for the payment at GeorgeJefferson's node shell by running:
+flow start RequestFlowInitiator amount: 8000, towhom: Priyata
+As a result, we can check for the payment at Priyata's node shell by running:
 
-run vaultQuery contractStateType: net.corda.examples.autopayroll.states.MoneyState
-We will see that George Jefferson received a MoneyState with amount $500.
+run vaultQuery contractStateType: com.template.states.MoneyState
+We will see that Priyata received a MoneyState with amount 8000.
 
-Behind the scenes, upon the completion of RequestFlow, a request state is stored at Bank operator's vault. The CordaService vault listener picks up the update and calls the paymentFlow automatically to send a moneyState to the designed reciever.
+Behind the scenes, upon the completion of RequestFlow, a request state is stored at HDFC's vault. The CordaService vault listener picks up the update and calls the MoneyFlow automatically to send a moneyState to the designed reciever.
 
 Flow triggering using CordaService
 
